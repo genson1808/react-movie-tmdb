@@ -35,11 +35,6 @@ const Home = () => {
     fetchAPI();
   }, []);
 
-  useEffect(() => {
-    if (nowPlaying) {
-      console.log(nowPlaying);
-    }
-  }, [nowPlaying]);
 
   const handlerGenreClick = async (genre_id) => {
     setMovieByGenre(await fetchMoviesByGenre(genre_id));
@@ -50,6 +45,13 @@ const Home = () => {
     setTitle(title);
     setIsOpen(true);
   };
+
+    const handleNextButton = () => {
+        let a = [...movieByGenre]
+        let b = a.splice(0, 4);
+        a = a.concat(b)
+        setMovieByGenre(a);
+    }
 
   const movies = nowPlaying.slice(0, 5).map((item, index) => {
     return (
@@ -62,10 +64,10 @@ const Home = () => {
         />
         <div className="carousel-center">
           <i
-            onClick={() => handlePlayerClick(item.title, item.id)}
-            className="far fa-play-circle"
-            style={{ fontSize: 95, color: "#f4c10f", cursor: "pointer" }}
-          ></i>
+    onClick={() => handlePlayerClick(item.title, item.id)}
+    className="far fa-play-circle"
+    style={{fontSize: 95, color: "#f4c10f", cursor: "pointer"}}
+    />
         </div>
         <Carousel.Caption style={{ textAlign: "center", fontSize: 35 }}>
           {item.title}
@@ -90,7 +92,7 @@ const Home = () => {
     );
   });
 
-  const movieList = movieByGenre.slice(0, 4).map((item, index) => {
+  const movieList = movieByGenre.slice(0,4).map((item, index) => {
     return (
       <div className="col-md-3 col-sm-6" key={index}>
         <div className="card">
@@ -102,10 +104,10 @@ const Home = () => {
           <p style={{ fontWeight: "bolder" }}>{item.title}</p>
           <p>Rated: {item.rating}</p>
           <ReactStars
-            count={item.rating}
-            size={20}
-            color={"#f4c10f"}
-          ></ReactStars>
+    count={item.rating}
+    size={20}
+    color={"#f4c10f"}
+    />
         </div>
       </div>
     );
@@ -142,25 +144,25 @@ const Home = () => {
           <p style={{ fontWeight: "bolder" }}>{item.title}</p>
           <p>Rated: {item.rating}</p>
           <ReactStars
-            count={item.rating}
-            size={20}
-            color={"#f4c10f"}
-          ></ReactStars>
+    count={item.rating}
+    size={20}
+    color={"#f4c10f"}
+    />
         </div>
       </div>
     );
   });
 
-  return (
+    return (
     <div className="container">
       <PlayerModal
-        show={isOpen}
-        onHide={() => {
-          setIsOpen(false);
-        }}
-        videoKey={video.key}
-        title={title}
-      ></PlayerModal>
+    show={isOpen}
+    onHide={() => {
+        setIsOpen(false);
+    }}
+    videoKey={video.key}
+    title={title}
+    />
       <div className="row">
         <div className="col">
           <Carousel
@@ -173,25 +175,21 @@ const Home = () => {
           </Carousel>
         </div>
       </div>
+
       <div className="row mt-3">
         <div className="col">
           <ul className="list-inline">{genreList}</ul>
         </div>
       </div>
+
       <div className="row mt-3">
         <div className="col">
           <div className="float-right">
-            <i className="far fa-arrow-alt-circle-right"></i>
+            <i className="far fa-arrow-alt-circle-right" onClick={() => handleNextButton()}/>
           </div>
         </div>
       </div>
-      <div className="row mt-3">
-        <div className="col">
-          <div className="float-left">
-            <i className="far fa-arrow-alt-circle-left"></i>
-          </div>
-        </div>
-      </div>
+
       <div className="row mt-3">{movieList}</div>
       <div className="row mt-3">
         <div className="col">
@@ -200,6 +198,7 @@ const Home = () => {
           </p>
         </div>
       </div>
+
       <div className="row mt-3">{trendingPersons}</div>
       <div className="row mt-3">
         <div className="col">
